@@ -26,7 +26,8 @@ public class TaskService {
     public Collection<Task> getAllByDate(LocalDate date){
         Collection<Task> tasksAllByDate = new ArrayList<>();
         for (Task task : taskMap.values()) {
-            if (date.equals(task.getDateTime().toLocalDate())){
+
+            if (task.appearsIn(date)){
                 tasksAllByDate.add(task);
             }
         }

@@ -8,12 +8,12 @@ import java.util.Objects;
 
 public abstract class Task{
     private static int idGenerator = 1;
-    public enum Type {WORK, PERSONAL}
-    private String title;
-    private final Type type;
     private int id;
-    private final LocalDateTime dateTime;
+    private String title;
     private String description;
+    private Type type;
+    private final LocalDateTime dateTime;
+
 
     public Task(String title, String description, Type type, LocalDateTime dateTime) throws InCorrectArgumentException {
         this.type = type;
@@ -65,14 +65,13 @@ public abstract class Task{
 
     @Override
     public String toString() {
-        return "Task{" +
-                "idGenerator=" + idGenerator +
-                ", title='" + title + '\'' +
-                ", type=" + type +
+        return "Задача[" +
+                title +
+                ", " + description +
+                ", тип" + type +
                 ", id=" + id +
                 ", dateTime=" + dateTime +
-                ", description='" + description + '\'' +
-                '}';
+                ']';
     }
     @Override
     public boolean equals(Object o) {
