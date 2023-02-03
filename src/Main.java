@@ -12,12 +12,12 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Main {
-    private static final TaskService taskBook = new TaskService();
-    public static final Pattern DATE_TIME_PATTERN = Pattern.compile("\\d{2}\\.\\d{2}\\.\\d{4} \\d{2}\\:\\d{2}");
-    public static final Pattern DATE_PATTERN = Pattern.compile("\\d{2}\\.\\d{2}\\.\\d{4}");
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    public static void main(String[] args) throws InCorrectArgumentException {
+    private static final TaskService TASK_BOOK = new TaskService();
+    private static final Pattern DATE_TIME_PATTERN = Pattern.compile("\\d{2}\\.\\d{2}\\.\\d{4} \\d{2}\\:\\d{2}");
+    private static final Pattern DATE_PATTERN = Pattern.compile("\\d{2}\\.\\d{2}\\.\\d{4}");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static void main(String[] args){
         try (Scanner scanner = new Scanner(System.in)) {
             label:
             while (true) {
@@ -27,8 +27,12 @@ public class Main {
                     int menu = scanner.nextInt();
                     switch (menu) {
                         case 1:
-                            inputTask(scanner);
-                            break;
+                            try{
+                                inputTask(scanner);
+                                break;
+                            }catch (InCorrectArgumentException e) {
+                                System.out.println(e.getMessage());
+                            }
                         case 2:
                             removeTask(scanner);
                             break;
@@ -52,7 +56,7 @@ public class Main {
         int id = scanner.nextInt();
 
         try{
-            taskBook.remove(id);
+            TASK_BOOK.remove(id);
         }catch (TaskNotFoundException e){
             System.out.println(e.getMessage());
         }
@@ -66,9 +70,8 @@ public class Main {
         }
         else{
             System.out.println("Введите дату в формате dd.MM.yyyy");
-            scanner.close();
         }
-        System.out.println(taskBook.getAllByDate(taskDate));
+        System.out.println(TASK_BOOK.getAllByDate(taskDate));
 
     }
     private static void inputTask(Scanner scanner) throws InCorrectArgumentException {
@@ -91,7 +94,6 @@ public class Main {
                 break;
             default:
                 System.out.println("Данные введены неверно!");
-                scanner.close();
         }
         System.out.println("Введите дату и время задачи в формате dd.MM.yyyy HH:mm");
         LocalDateTime taskDateTime = null;
@@ -101,7 +103,6 @@ public class Main {
         }
         else{
             System.out.println("Введите дату и время задачи в формате dd.MM.yyyy HH:mm");
-            scanner.close();
         }
 
         System.out.println("Введите повторяемость задачи (1 - однократная, 2 - ежедневная, 3 - еженедельная, 4 - ежемесячная, 5 - ежегодная): ");
@@ -127,14 +128,13 @@ public class Main {
                     break;
                 default:
                     System.out.println("Данные введены неверно!");
-                    scanner.close();
             }
         }catch (InCorrectArgumentException e){
             System.out.println(e.getMessage());
         }
 
 
-        taskBook.add(task);
+        TASK_BOOK.add(task);
         System.out.println("Задача была добавлена!");
     }
 

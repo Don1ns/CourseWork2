@@ -11,6 +11,6 @@ public class MounthlyTask extends Task{
     }
     @Override
     public boolean appearsIn(LocalDate date) {
-        return date.isAfter(getDateTime().toLocalDate()) || date.getDayOfMonth() == getDateTime().toLocalDate().getDayOfMonth();
+        return (date.isAfter(getDateTime().toLocalDate()) || date.isEqual(getDateTime().toLocalDate())) && date.getDayOfMonth() == getDateTime().toLocalDate().getDayOfMonth();
     }
 }
